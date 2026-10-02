@@ -38,11 +38,32 @@ pactly/
 - 作業は feature ブランチで行い、PR 経由で `main` にマージする
 - コミット前に「このコードで何を聞かれても答えられるか」を自問し、説明できない実装は採用しない
 
+## リポジトリ構成(決定済み: [ADR 0001](../../docs/adr/0001-repository-structure.md))
+
+pnpm workspaces によるモノレポを採用した。予定している構成は次のとおり(未作成)。
+
+```
+pactly/
+├── apps/
+│   ├── web/            # Next.js
+│   └── api/            # NestJS
+└── packages/
+    ├── api-client/     # openapi-typescript の生成型 + openapi-fetch クライアント
+    └── config/         # ESLint / tsconfig / Prettier の共有設定
+```
+
+### 境界のルール
+
+- `apps/web` から `apps/api` のコードを直接 import しない。2つのアプリをつなぐのは `packages/api-client` だけにする
+- 守れているかをツールで確認する
+  - `apps/web` の `package.json` に `apps/api` を依存として書かない(pnpm の厳格な依存解決により、パッケージ名での import がエラーになる)
+  - 相対パスでの import は ESLint の `no-restricted-imports`(または dependency-cruiser)で禁止し、CI で検知する
+- API を変更したら、型の再生成とフロントエンドの修正を同じ PR に含める。CI で生成した型に差分がないかを検査する
+
 ## コード構成(未決定)
 
 以下は ADR で決定する。決まるまで AI は具体的な構成を前提にしたコードを生成しない。
 
-- リポジトリ構成(例: `apps/web` + `apps/api` + `packages/api-client` のモノレポにするか)
 - NestJS のモジュール分割の単位(機能単位 / ドメイン単位)とレイヤー分割(Controller / Service / Repository 等)
 - ドメインロジックの置き場所と、ORM への依存をどこまで閉じ込めるか
 - OpenAPI 生成物(スキーマ・型)の配置と生成タイミング(CI で差分チェックするか)
