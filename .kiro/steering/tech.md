@@ -41,6 +41,8 @@ NestJS (@nestjs/swagger) ──生成──▶ OpenAPI 定義
 | CI/CD | GitHub Actions(テスト自動実行・デプロイパイプライン) |
 | 依存関係の更新 | Renovate |
 | タスク管理 | GitHub Issues / GitHub Projects |
+| リポジトリ構成 | pnpm workspaces によるモノレポ([ADR 0001](../../docs/adr/0001-repository-structure.md)) |
+| パッケージマネージャ | pnpm([ADR 0001](../../docs/adr/0001-repository-structure.md)) |
 
 ## 未決定事項(ADR 候補)
 
@@ -48,8 +50,6 @@ NestJS (@nestjs/swagger) ──生成──▶ OpenAPI 定義
 | --- | --- | --- |
 | ORM / クエリビルダ | Prisma / Drizzle | `CLAUDE.md` で両論併記 |
 | AWS 実行環境 | App Runner / ECS Fargate | 「シンプル構成」が前提 |
-| リポジトリ構成 | モノレポ(pnpm workspaces / Turborepo 等)/ 複数リポジトリ | OpenAPI 型の共有方法に直結する |
-| パッケージマネージャ | npm / pnpm / yarn / bun | リポジトリ構成とセットで決める |
 | Node.js バージョン | — | `.nvmrc` / `engines` で固定する |
 | 認証方式 | セッション / JWT、パスワード / OAuth / パスキー 等 | 認証(誰か)と認可(RBAC: 何ができるか)は分けて設計する |
 | テストフレームワーク | Jest / Vitest、E2E に Playwright 等 | NestJS の標準は Jest |
@@ -59,7 +59,7 @@ NestJS (@nestjs/swagger) ──生成──▶ OpenAPI 定義
 
 ## よく使うコマンド
 
-まだアプリケーションコードがないため未定義。パッケージマネージャとリポジトリ構成が決まり次第ここに追記する。
+まだアプリケーションコードがないため未定義。パッケージマネージャは pnpm に決定済み([ADR 0001](../../docs/adr/0001-repository-structure.md))。各アプリの雛形を作成したらここに追記する。
 
 ## 環境変数
 
